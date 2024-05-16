@@ -1,0 +1,145 @@
+/*!
+ * le
+ */
+$blue:    #409EFF !default;
+$info:    #909399 !default;
+
+
+@import "bootstrap";
+@media (min-width: 1590px) {
+    .container, .container-sm, .container-md, .container-lg, .container-xl .modal-xl{
+        max-width: 1560px;
+    }
+}
+
+@import "element-plus/dist/index.css";
+
+
+/*app*/
+img{
+    max-width: 100%;
+    max-height: 100%;
+}
+body{
+    min-width: 980px;
+    /*height: 100vh;
+    overflow-y: hidden;
+    overflow-x: scroll;*/
+}
+.app-wrapper{
+    min-height: 100vh;
+    /*overflow-y: scroll;*/
+}
+.page-wrapper{
+
+    width: 100%;
+    margin: 0 auto auto auto;
+
+}
+.header-wrapper{
+    /*border-bottom: solid 1px #e6e6e6;*/
+    /*overflow: hidden;*/
+}
+.logo-wrapper{
+
+}
+.logo-wrapper a ,.logo-wrapper a:hover,.logo-wrapper a:focus{
+    text-decoration: none;
+}
+.main-wrapper{
+    min-height: calc(100vh - 120px);
+}
+.sidebar-wrapper{
+    width: 220px;
+    overflow-x: hidden;
+    /*width: auto !important;*/
+    min-height: 100%;
+    border-right: 1px solid #e0e1e2;
+
+}
+
+.sidebar-wrapper .el-menu{
+    border-right: none;
+
+}
+.footer-wrapper{
+    padding: 0;
+
+}
+
+.sidebar-wrapper .el-menu a{
+    text-decoration: none;
+    color: $black;
+    display: block;
+}
+.sidebar-wrapper .el-menu-item.is-active a{
+    color: $blue;
+}
+
+
+a.el-link{
+    text-decoration: none;
+}
+
+.content-header{
+    margin-bottom: 1em;
+}
+.content-header-breadcrumb{
+    line-height: 40px;
+}
+
+.ellipsis-line-multi{
+    white-space:normal !important;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+.ellipsis-line-1{
+    -webkit-line-clamp: 1;
+}
+.ellipsis-line-2{
+    -webkit-line-clamp: 2;
+}
+.ellipsis-line-3{
+    -webkit-line-clamp: 3;
+}
+.ellipsis-line-4{
+    -webkit-line-clamp: 4;
+}
+.ellipsis-line-5{
+    -webkit-line-clamp: 5;
+}
+
+.ellipsis-line-6{
+    -webkit-line-clamp: 6;
+}
+.ellipsis-line-7{
+    -webkit-line-clamp: 7;
+}
+
+.ellipsis-line-8{
+    -webkit-line-clamp: 8;
+}
+
+.ellipsis-line-9{
+    -webkit-line-clamp: 9;
+}
+
+.ellipsis-line-10{
+    -webkit-line-clamp: 10;
+}
+
+/*.el-menu-item.is-active{
+    background-color: #ecf5ff;
+}*/
+
+.ck-content{
+    line-height: 1.2rem;
+    min-height: 200px;
+}
+
+.pager{
+    margin-top: 1em;
+}
+.le-file-view .le-file-view-img{
+    cursor: zoom-in;
+}
