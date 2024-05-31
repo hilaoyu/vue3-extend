@@ -6,6 +6,9 @@ $info:    #909399 !default;
 
 
 @import "bootstrap";
+.nav-link.active,.show>.nav-link {
+    background-color: #efefef;
+}
 @media (min-width: 1590px) {
     .container, .container-sm, .container-md, .container-lg, .container-xl .modal-xl{
         max-width: 1560px;

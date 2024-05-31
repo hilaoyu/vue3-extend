@@ -12,6 +12,10 @@ import formAuthLogin from './components/auth/formAuthLoginComponent.vue'
 import formAuthLogOut from './components/auth/formAuthLogoutComponent.vue'
 import formAuthUserChangPass from './components/auth/formAuthUserChangPassComponent.vue'
 import menuAuth from './components/auth/menuAuthComponent.vue'
+import pagination from './components/pagination/paginationComponent.vue'
+
+import listVariablesEntities from './components/variables/listVariablesEntitiesComponent.vue'
+import variableFormItemValue from './components/variables/variableFormItemValueComponent.vue'
 
 function extendComponentsRegister(vueApp){
     vueApp.component('password-view', passwordView);
@@ -28,6 +32,10 @@ function extendComponentsRegister(vueApp){
     vueApp.component('form-auth-logout', formAuthLogOut);
     vueApp.component('form-auth-user-chang-pass', formAuthUserChangPass);
     vueApp.component('menu-auth', menuAuth);
+    vueApp.component('pagination', pagination);
+
+    vueApp.component('list-variables-entities', listVariablesEntities);
+    vueApp.component('variable-form-item', variableFormItemValue);
 
 
 }

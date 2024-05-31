@@ -1,5 +1,5 @@
 
-declare interface UtilsStatic  {
+export  interface UtilsStatic  {
 	typeIs(type : string, obj : any): boolean;
 	isEmpty(obj : any): boolean;
 
@@ -12,7 +12,7 @@ declare interface UtilsStatic  {
 	uuid(): string;
 
 	joinToString(obj : any, glue ?: string, withObjKey ?: boolean): string;
-	valueGet(obj : any, key : string, defaultValue : any): any;
+	valueGet(obj : any, key : string, defaultValue ?: any): any;
 
 	timeCountDown(timeout : number, completedCallback ?: CallableFunction, progressCallback ?: CallableFunction, step ?: Number): void;
 

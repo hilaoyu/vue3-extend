@@ -1,8 +1,10 @@
 
-declare namespace Validator{
-	function validateMobile(rule : any, value : string, callback : CallableFunction): void;
+export  interface ValidatorStatic {
+    validateMobile(rule: any, value: string, callback: CallableFunction): void;
 
-	function validateEmail(rule : any, value : string, callback : CallableFunction): void;
-	function validatePasswordStrong(rule : any, value : string, callback : CallableFunction): void;
+    validateEmail(rule: any, value: string, callback: CallableFunction): void;
 
+    validatePasswordStrong(rule: any, value: string, callback: CallableFunction): void;
 }
+declare const Validator:ValidatorStatic
+export default Validator

@@ -2,7 +2,7 @@ import {v4 as uuidv4} from 'uuid';
 import Url from 'url';
 import {Base64} from 'js-base64';
 
-const Utils = {
+const Utils =  {
     typeIs: function (type, obj) {
         type = String(type).toLowerCase();
         if('array' == type){
@@ -219,27 +219,27 @@ const Utils = {
         this._keyUpEvents[key] = events;
 
     },
-    buildUrl: function (url, params) {
+    buildUrl: function (uri, params) {
         if (this.typeIs('object', params)) {
-            let urlParse = Url.parse(url, true);
+            let urlParse = Url.parse(uri, true);
             let urlQuery = this.valueGet(urlParse, 'query', {})
 
             urlParse.query = Object.assign({}, urlQuery, params)
             urlParse.search = ''
             //console.log(urlParse);
 
-            url = urlParse.format()
+            uri = urlParse.format()
         }
 
 
-        return url;
+        return uri;
     },
     isUrl:function (str){
         if(!this.typeIs('string',str)){
             return false;
         }
 
-        var strRegex = '^((https|http|ftp|rtsp|mms)://)'
+        var strRegex = '^((https|http|ftp|rtsp|mms|wss|ws)://)'
             + '(([0-9a-z_!~*\'().&=+$%-]+: )?[0-9a-z_!~*\'().&=+$%-]+@)?' //ftp的user@
             + '(([0-9]{1,3}.){3}[0-9]{1,3}' // IP形式的URL- 199.194.52.184
             + '|' // 允许IP和DOMAIN（域名）

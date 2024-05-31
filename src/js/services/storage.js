@@ -122,28 +122,6 @@ const StorageUtil = {
         return  token
     },
 
-    getLeServiceRoutes(){
-        let leServiceRoutes = this.localGet('LocalLeServiceRoutes')
-
-        if(!leServiceRoutes || !Utils.typeIs('object', leServiceRoutes)){
-            leServiceRoutes = {}
-        }
-
-        return leServiceRoutes
-    },
-    setLeServiceRoutes(routes){
-        this.localSet('LocalLeServiceRoutes',routes)
-        return routes
-    },
-    setLeServiceRoute(routeName,route){
-        let leServiceRoutes = this.getLeServiceRoutes()
-        leServiceRoutes[routeName] = route
-        this.setLeServiceRoutes(leServiceRoutes)
-        return leServiceRoutes
-    },
-    clearLeServiceRoutes(){
-        this.localRemove('LocalLeServiceRoutes')
-    },
 }
 
 export default StorageUtil

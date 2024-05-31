@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import {defineProps, getCurrentInstance, ref} from 'vue';
 import Utils from "../../services/utils";
+import Validators from '../../services/validators'
 import type {FormInstance} from 'element-plus'
 import axios,{buildAxiosRequestConfig} from "../../services/axios";
 
@@ -21,7 +22,7 @@ const formErrors = ref({
 })
 
 const validatePasswordConfirm = (rule, value, callback) => {
-  if (value !== this.formData.password) {
+  if (value !== formData.value.password) {
     callback(new Error('两次密码输入不一致'));
   }
   callback();
@@ -33,7 +34,7 @@ const rules = {
   ],
   password: [
     {required: true, message: '请输入密码', trigger: 'blur'},
-    {validator: Validator.validatePasswordStrong, trigger: 'blur'}
+    {validator: Validators.validatePasswordStrong, trigger: 'blur'}
   ],
   password_confirm: [
     {required: true, message: '请重复密码', trigger: 'blur'},
@@ -43,18 +44,13 @@ const rules = {
 }
 const changePassForm = ref<FormInstance>()
 const changPassSubmit = () => {
-
-
-  let _this = this;
-
-  //console.log(_this.formChangePassData)
   changePassForm.value.validate((valid) => {
     if (valid) {
-      axios.apiRequest(buildAxiosRequestConfig(props.apiChangePass, formData))
+      axios.apiRequest(buildAxiosRequestConfig(props.apiChangePass, formData.value))
           .then(function (res_data) {
             proxy.$message.success('修改成功');
             changePassForm.value.resetFields();
-            proxy.$emit('changed')
+            proxy.$emit('changed-success')
           }).catch(function (error) {
         formErrors.value = Utils.valueGet(error, 'response.data.errors', {});
       })

@@ -1,22 +1,26 @@
 "use strict";
 
 
-import {setAxiosGlobalMessageHandle} from "./services/axios";
+import axios,{setAxiosGlobalMessageHandle,buildAxiosRequestConfig} from "./services/axios";
 
 import('./services/prototypes');
 import jquery from 'jquery'
 window.jQuery = jquery
+
+import Utils from './services/utils'
+import Validator from './services/validators'
+import StorageUtil from './services/storage'
+import ApiAuth from './services/api-auth'
+
 import ElementUI,{ ElMessage } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueClipboard from 'vue-clipboard3'
 window._copyText = VueClipboard().toClipboard
 import extendComponentsRegister from './extend-components-register'
-import { createApp ,nextTick,getCurrentInstance} from 'vue/dist/vue.esm-bundler'
-window.vueNextTick = nextTick
-window.vueGetCurrentInstance = getCurrentInstance
-window.$windowReload = function (){
-    window.location.reload()
-}
+import { createApp } from 'vue/dist/vue.esm-bundler'
+
+
 
 setAxiosGlobalMessageHandle(function (msg,type){
     if('error' === type){
@@ -45,7 +49,7 @@ setAxiosGlobalMessageHandle(function (msg,type){
         });
     }
 })
-export function creatExtendApp(rootComponent,rootProps) {
+function creatExtendApp(rootComponent,rootProps) {
     const app = createApp(rootComponent,rootProps)
     app.config.globalProperties.$copyText = VueClipboard().toClipboard
     app.config.globalProperties.$windowReload = function () {
@@ -55,8 +59,22 @@ export function creatExtendApp(rootComponent,rootProps) {
         return Utils.joinToString(obj, glue)
     }
     app.use(ElementUI, { locale: zhCn });
-
+    for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+        app.component(key, component)
+    }
 
     extendComponentsRegister(app)
     return app
+}
+
+
+export  {
+    creatExtendApp,
+    Utils,
+    Validator,
+    StorageUtil,
+    axios,
+    setAxiosGlobalMessageHandle,
+    buildAxiosRequestConfig,
+    ApiAuth,
 }

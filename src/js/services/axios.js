@@ -1,27 +1,37 @@
 import axios, {AxiosError} from 'axios'
 import Utils from "./utils";
 import StorageUtil from "./storage"
-import utils from "./utils";
+import Url from "url";
 
 let axiosGlobalMessageHandle = null
+let axiosGlobalBaseUrl = ''
 export function setAxiosGlobalMessageHandle(callback) {
     axiosGlobalMessageHandle = callback
 }
+export function setAxiosGlobalBaseUrl(uri) {
+    setAxiosGlobalBaseUrl = uri
+}
+
 
 export function buildAxiosRequestConfig(reqConfig,data,headers,method)  {
     let axiosReqConfig = {}
     if (Utils.typeIs('string', reqConfig)) {
         axiosReqConfig.url = reqConfig
-        axiosReqConfig.method = method ? method.toUpperCase() :'GET'
     }else{
         axiosReqConfig = Object.assign({},reqConfig)
+    }
+    if(!Utils.isEmpty(method) && Utils.typeIs('string',method)){
+        axiosReqConfig.method = method.toUpperCase()
+    }
+    if(Utils.isEmpty(axiosReqConfig.method)){
+        axiosReqConfig.method = 'GET'
     }
 
     if(!Utils.isEmpty(data)) {
         if (['PUT', 'POST', 'PATCH'].includes(axiosReqConfig.method.toUpperCase())) {
             axiosReqConfig.data = data
         }else{
-            axiosReqConfig.url = utils.buildUrl(axiosReqConfig.url,data)
+            axiosReqConfig.url = Utils.buildUrl(axiosReqConfig.url,data)
             //axiosReqConfig.params = data
         }
     }
@@ -189,6 +199,11 @@ function extendAxios (_axios)  {
             config.headers['X-Requested-With'] = 'XMLHttpRequest'
         }
 
+        let urlParse = Url.parse(config.url)
+        if(Utils.isEmpty(urlParse.protocol) && Utils.isEmpty(config.baseURL) && !Utils.isEmpty(axiosGlobalBaseUrl)) {
+            config.baseURL = axiosGlobalBaseUrl
+        }
+
 
         return config;
     }
@@ -248,11 +263,17 @@ function extendAxios (_axios)  {
         _i.requestIsQuiet = !!isQuiet
         return _i
     }
+    _axios.withBaseUrl = (uri) => {
+        let _i = _axios.create()
+        extendAxios(_i)
+        _i.defaults.baseURL = uri
+        return _i
+    }
 
 
 
-    _axios.apiRequest = async (reqConfig) => {
-        let axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+    _axios.apiRequest = async (reqConfig,data) => {
+        let axiosReqConfig = buildAxiosRequestConfig(reqConfig,data)
         axiosReqConfig.isApiRequest = true
         return _axios.request(axiosReqConfig)
     }
@@ -298,7 +319,6 @@ function extendAxios (_axios)  {
     });
 }
 
-//utils.extend(axios,Axios.prototype)
 extendAxios(axios)
 
 export default axios

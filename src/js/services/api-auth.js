@@ -18,7 +18,7 @@ const ApiAuth = {
             })
     },
     checkLogin :function (api) {
-        return axios.quiet().apiRequest(buildAxiosRequestConfig(api))
+        return axios.quiet(true).apiRequest(buildAxiosRequestConfig(api))
             .then(function (res_data) {
                 let data = Utils.valueGet(res_data, 'data', null)
                 let user = Utils.valueGet(data, 'user', null);

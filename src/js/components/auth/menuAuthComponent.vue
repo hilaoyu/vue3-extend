@@ -68,7 +68,9 @@ const eventAuthLogouted = () => {
   closeAuthDialog('logout')
   proxy.$emit('logouted')
 }
-
+const eventChangPassSuccess = () => {
+  proxy.$emit('chang-pass-success')
+}
 const checkLoggedIn = () => {
   ApiAuth.checkLogin(props.apiHasLoggedIn).then( (res_data) => {
     authedUser.value = Utils.valueGet(res_data,"user",null)
@@ -78,6 +80,9 @@ const checkLoggedIn = () => {
 nextTick(function (){
   checkLoggedIn()
 })
+
+
+
 </script>
 <template>
   <div :id="id" class=" ">
@@ -134,7 +139,7 @@ nextTick(function (){
 
         </form-auth-login>
       </div>
-      <template v-slot:footer>
+<!--      <template v-slot:footer>
         <div class="dialog-footer">
           <el-row type="flex" justify="space-between">
             <el-button v-if="Utils.isEmpty(props.apiChangePass)"
@@ -142,7 +147,7 @@ nextTick(function (){
             </el-button>
           </el-row>
         </div>
-      </template>
+      </template>-->
 
     </el-dialog>
 
@@ -180,8 +185,8 @@ nextTick(function (){
         center>
       <div>
         <form-auth-user-chang-pass
-            :apiChangePass="props.apiChangePass"
-            v-on:changed="window.$windowReload"></form-auth-user-chang-pass>
+            :api-change-pass="props.apiChangePass"
+            v-on:changed-success="eventChangPassSuccess"></form-auth-user-chang-pass>
       </div>
       <template v-slot:footer>
         <div class="dialog-footer">

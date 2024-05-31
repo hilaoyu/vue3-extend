@@ -1,10 +1,9 @@
 import {AxiosRequestConfig} from "axios";
 
-declare namespace ApiAuth{
-
-	function login(api : AxiosRequestConfig | object ,data:object): Promise<Object>;
-	function checkLogin(api :AxiosRequestConfig | object): Promise<Object>;
-	function logout(api : AxiosRequestConfig | object): Promise<Object>;
+export  interface ApiAuthStatic{
+	 login(api : AxiosRequestConfig | object ,data:object): Promise<Object>;
+	 checkLogin(api :AxiosRequestConfig | object): Promise<Object>;
+	 logout(api : AxiosRequestConfig | object): Promise<Object>;
 }
-
+declare const ApiAuth:ApiAuthStatic
 export default ApiAuth
