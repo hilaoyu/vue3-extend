@@ -1,11 +1,11 @@
 import {AxiosResponse, Axios,AxiosRequestConfig} from "axios/index";
 
 export function setAxiosGlobalMessageHandle(callback: CallableFunction): void;
+export function setAxiosGlobalLoadingServiceHandle(callback: CallableFunction): void;
 export function buildAxiosRequestConfig(reqConfig : AxiosRequestConfig | Object | string ,data ?: object,headers ?: object,method ?: string):AxiosRequestConfig
 export  interface AxiosExStatic extends Axios {
-    useLoading(loadingService: any): AxiosExStatic;
+    useLoading(loadingService?: any): AxiosExStatic;
 
-    unUseLoading(): AxiosExStatic;
 
     tryCloseLoading(): void;
 

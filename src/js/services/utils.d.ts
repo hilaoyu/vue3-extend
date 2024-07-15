@@ -23,7 +23,7 @@ export  interface UtilsStatic  {
 	listenKeyUp(key : string, tag : string, callback : CallableFunction): boolean;
 
 	listenKeyUpRemove(key : string, tag : any): void;
-	buildUrl(url : any, params : any): any;
+	buildUrl(url : any, params ?: any): any;
 
 	isUrl(str : string): boolean;
 	inArray(needle : any, arr : Array<any>): boolean;

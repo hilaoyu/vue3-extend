@@ -12,7 +12,10 @@ export function setAxiosGlobalBaseUrl(uri) {
     setAxiosGlobalBaseUrl = uri
 }
 
-
+let axiosGlobalLoadingServiceHandle = null
+export function setAxiosGlobalLoadingServiceHandle(loadingService) {
+    axiosGlobalLoadingServiceHandle = loadingService
+}
 export function buildAxiosRequestConfig(reqConfig,data,headers,method)  {
     let axiosReqConfig = {}
     if (Utils.typeIs('string', reqConfig)) {
@@ -239,14 +242,17 @@ function extendAxios (_axios)  {
     }
 
     _axios.loadingService = null
-    _axios.unUseLoading = (loadingService) => {
+    _axios.useLoading = (loadingService) => {
         let _i = _axios.create()
         extendAxios(_i)
+        if(Utils.isEmpty(loadingService)){
+            loadingService = axiosGlobalLoadingServiceHandle()
+        }
         _i.loadingService = loadingService;
         return _i;
     }
     _axios.tryCloseLoading = () =>{
-        if (!_axios.loadingService) {
+        if (Utils.isEmpty(_axios.loadingService)) {
             return;
         }
         try {
@@ -310,7 +316,7 @@ function extendAxios (_axios)  {
     });
 
     _axios.interceptors.response.use(function (response) {
-        _axios.tryCloseLoading(Utils.valueGet(response, 'config.loadingService'))
+        _axios.tryCloseLoading()
         return _axios.interceptorsResponseSuccess(response)
 
     }, function (error) {

@@ -1,7 +1,7 @@
 "use strict";
 
 
-import axios,{setAxiosGlobalMessageHandle,buildAxiosRequestConfig} from "./services/axios";
+import axios,{setAxiosGlobalMessageHandle,buildAxiosRequestConfig,setAxiosGlobalLoadingServiceHandle} from "./services/axios";
 
 import('./services/prototypes');
 import jquery from 'jquery'
@@ -12,7 +12,7 @@ import Validator from './services/validators'
 import StorageUtil from './services/storage'
 import ApiAuth from './services/api-auth'
 
-import ElementUI,{ ElMessage } from 'element-plus'
+import ElementUI,{ ElMessage,ElLoading } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueClipboard from 'vue-clipboard3'
@@ -49,6 +49,15 @@ setAxiosGlobalMessageHandle(function (msg,type){
         });
     }
 })
+
+setAxiosGlobalLoadingServiceHandle(function (){
+    return ElLoading.service({
+        lock: true,
+        text: 'Loading...',
+        background: 'rgba(0, 0, 0, 0.7)',
+    })
+})
+
 function creatExtendApp(rootComponent,rootProps) {
     const app = createApp(rootComponent,rootProps)
     app.config.globalProperties.$copyText = VueClipboard().toClipboard
@@ -75,6 +84,7 @@ export  {
     StorageUtil,
     axios,
     setAxiosGlobalMessageHandle,
+    setAxiosGlobalLoadingServiceHandle,
     buildAxiosRequestConfig,
     ApiAuth,
 }

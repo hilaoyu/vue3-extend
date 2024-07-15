@@ -10,4 +10,5 @@ export declare var Validator:ValidatorStatic
 export declare var StorageUtil:StorageUtilStatic
 export declare var axios:AxiosExStatic
 export declare function  setAxiosGlobalMessageHandle(callback: CallableFunction): void
+export declare function  setAxiosGlobalLoadingServiceHandle(callback: CallableFunction): void
 export declare function  buildAxiosRequestConfig(reqConfig : AxiosRequestConfig | Object | string ,data ?: object,headers ?: object,method ?: string):AxiosRequestConfig
