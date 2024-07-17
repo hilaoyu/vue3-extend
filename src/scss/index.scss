@@ -146,3 +146,17 @@ a.el-link{
 .le-file-view .le-file-view-img{
     cursor: zoom-in;
 }
+
+.w-0 {
+    width: 0!important
+}
+.h-0 {
+    height: 0!important
+}
+
+.pointer-events-none {
+    pointer-events: none
+}
+.el-dialog{
+    pointer-events: all
+}

@@ -28,7 +28,7 @@ const  doCopy = () => {
     proxy.$message.success('复制成功')
     //console.log(e)
   }, function (e) {
-    proxy.$message.success('复制失败，请手动复制')
+    proxy.$message.error('复制失败，请手动复制')
     //console.log(e)
   })
 }
