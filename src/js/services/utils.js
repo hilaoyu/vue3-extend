@@ -2,16 +2,16 @@ import {v4 as uuidv4} from 'uuid';
 import Url from 'url';
 import {Base64} from 'js-base64';
 
-const Utils =  {
+const Utils = {
     typeIs: function (type, obj) {
         type = String(type).toLowerCase();
-        if('array' == type){
+        if ('array' == type) {
             return Array.isArray(obj);
         }
         return (typeof obj).toLowerCase() == type;
     },
     isEmpty: function (obj) {
-        if (this.typeIs('undefined',obj) || null === obj || NaN === obj) {
+        if (this.typeIs('undefined', obj) || null === obj || NaN === obj) {
             return true;
         }
         if (this.typeIs('array', obj) || this.typeIs('object', obj)) {
@@ -38,8 +38,8 @@ const Utils =  {
         }
         return str;
     },
-    base64En: function (data,urlSafe) {
-        return Base64.encode(data,urlSafe);
+    base64En: function (data, urlSafe) {
+        return Base64.encode(data, urlSafe);
     },
     base64De: function (data) {
         return Base64.decode(data);
@@ -234,8 +234,8 @@ const Utils =  {
 
         return uri;
     },
-    isUrl:function (str){
-        if(!this.typeIs('string',str)){
+    isUrl: function (str) {
+        if (!this.typeIs('string', str)) {
             return false;
         }
 
@@ -249,43 +249,54 @@ const Utils =  {
             + '(:[0-9]{1,4})?' // 端口- :80
             + '((/?)|' // a slash isn't required if there is no file name
             + '(/[0-9a-zA-Z_!~*\'().;?:@&=+$,%#-]+)+/?)$';
-        var re=new RegExp(strRegex);
+        var re = new RegExp(strRegex);
         return re.test(str);
 
     },
-    inArray:function (needle,arr ){
-        if(!this.typeIs('array',arr)){
+    inArray: function (needle, arr) {
+        if (!this.typeIs('array', arr)) {
             return false;
         }
 
         return arr.indexOf(needle) > -1
     },
-    formatDataTime:function (str) {
+    formatDataTime: function (str) {
         let t = new Date(Date.parse(str))
         return t.getFullYear()
             + "-"
-            + (t.getMonth() + 1).toString().padStart(2,'0')
+            + (t.getMonth() + 1).toString().padStart(2, '0')
             + "-"
-            + t.getDate().toString().padStart(2,'0')
+            + t.getDate().toString().padStart(2, '0')
             + " "
-            + t.getHours().toString().padStart(2,'0')
+            + t.getHours().toString().padStart(2, '0')
             + ":"
-            + t.getMinutes().toString().padStart(2,'0')
+            + t.getMinutes().toString().padStart(2, '0')
             + ":"
-            + t.getSeconds().toString().padStart(2,'0')
+            + t.getSeconds().toString().padStart(2, '0')
     },
-    formatFileSize :function(value){
-    if(null==value||''==value){
-        return "0 Bytes";
+    formatFileSize: function (value) {
+        if (null == value || '' == value) {
+            return "0 Bytes";
+        }
+        var unitArr = new Array("Bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB");
+        var index = 0;
+        var srcsize = parseFloat(value);
+        index = Math.floor(Math.log(srcsize) / Math.log(1024));
+        var size = srcsize / Math.pow(1024, index);
+        size = size.toFixed(2);//保留的小数位数
+        return size + unitArr[index];
+    },
+    urlGetQueryParameter: function (name) {
+        var params = location.search.slice(1).split('&');
+        var result = "";
+        params.forEach(function (param) {
+            var components = param.split('=');
+            if (components[0] === name) {
+                result = components.slice(1).join('=');
+            }
+        });
+        return result;
     }
-    var unitArr = new Array("Bytes","KB","MB","GB","TB","PB","EB","ZB","YB");
-    var index=0;
-    var srcsize = parseFloat(value);
-    index=Math.floor(Math.log(srcsize)/Math.log(1024));
-    var size =srcsize/Math.pow(1024,index);
-    size=size.toFixed(2);//保留的小数位数
-    return size+unitArr[index];
-}
 }
 export default Utils
 

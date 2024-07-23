@@ -31,6 +31,7 @@ export  interface UtilsStatic  {
 	formatDataTime(str : string): string;
 
 	formatFileSize(value : number): string;
+	urlGetQueryParameter(name : string): string;
 }
 
 declare const Utils:UtilsStatic
