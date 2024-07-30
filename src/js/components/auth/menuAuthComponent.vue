@@ -15,6 +15,7 @@ const props = defineProps({
     type: String,
     default: 'auth-menu-' + Utils.randomString(6)
   },
+  viewMode: {type:String,default:"horizontal"},
   formLabelWidth: {type:String,default:"100px"},
   loginByAccount:Object,
   loginByEmail:Object,
@@ -86,9 +87,8 @@ nextTick(function (){
 </script>
 <template>
   <div :id="id" class=" ">
-    <el-menu class=" " mode="horizontal">
+    <el-menu class=" " :mode="props.viewMode">
       <el-sub-menu >
-
         <template v-slot:title>
           <template v-if="authedUser">
             <slot name="title-logined" :user="authedUser">
