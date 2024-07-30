@@ -87,7 +87,7 @@ nextTick(function (){
 </script>
 <template>
   <div :id="id" class=" ">
-    <el-menu class=" " :mode="props.viewMode">
+    <el-menu class=" " :mode="props.viewMode" :ellipsis="false">
       <el-sub-menu >
         <template v-slot:title>
           <template v-if="authedUser">
