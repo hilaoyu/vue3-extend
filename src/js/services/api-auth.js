@@ -1,4 +1,4 @@
-import axios,{buildAxiosRequestConfig} from './axios'
+import axios from './axios'
 import Utils from './utils'
 import Storage from './storage'
 const ApiAuth = {
@@ -6,7 +6,7 @@ const ApiAuth = {
 
         Storage.setClientSource();
 
-        return axios.apiRequest(buildAxiosRequestConfig(api,data))
+        return axios.apiRequest(api,data)
             .then(function (res_data) {
                 let data = Utils.valueGet(res_data, 'data', null)
                 let user = Utils.valueGet(data, 'user', null);
@@ -18,7 +18,7 @@ const ApiAuth = {
             })
     },
     checkLogin :function (api) {
-        return axios.quiet(true).apiRequest(buildAxiosRequestConfig(api))
+        return axios.quiet(true).apiRequest(api)
             .then(function (res_data) {
                 let data = Utils.valueGet(res_data, 'data', null)
                 let user = Utils.valueGet(data, 'user', null);
@@ -33,7 +33,7 @@ const ApiAuth = {
             });
     },
     logout :function (api) {
-        return axios.apiRequest(buildAxiosRequestConfig(api))
+        return axios.apiRequest(api)
             .then(function (res_data) {
                 Storage.clearAuthInfo();
                 Storage.removeClientSource();

@@ -5,56 +5,69 @@ import Url from "url";
 
 let axiosGlobalMessageHandle = null
 let axiosGlobalBaseUrl = ''
+
 export function setAxiosGlobalMessageHandle(callback) {
     axiosGlobalMessageHandle = callback
 }
+
 export function setAxiosGlobalBaseUrl(uri) {
     setAxiosGlobalBaseUrl = uri
 }
 
 let axiosGlobalLoadingServiceHandle = null
+
 export function setAxiosGlobalLoadingServiceHandle(loadingService) {
     axiosGlobalLoadingServiceHandle = loadingService
 }
-export function buildAxiosRequestConfig(reqConfig,data,headers,method)  {
+
+export function buildAxiosRequestConfig(reqConfig, data, headers, method) {
     let axiosReqConfig = {}
     if (Utils.typeIs('string', reqConfig)) {
         axiosReqConfig.url = reqConfig
-    }else{
-        axiosReqConfig = Object.assign({},reqConfig)
+    } else {
+        axiosReqConfig = Object.assign({}, reqConfig)
     }
-    if(!Utils.isEmpty(method) && Utils.typeIs('string',method)){
+    if (!Utils.isEmpty(method) && Utils.typeIs('string', method)) {
         axiosReqConfig.method = method.toUpperCase()
     }
-    if(Utils.isEmpty(axiosReqConfig.method)){
+    if (Utils.isEmpty(axiosReqConfig.method)) {
         axiosReqConfig.method = 'GET'
     }
 
-    if(!Utils.isEmpty(data)) {
+    if (Utils.isEmpty(axiosReqConfig.url)) throw new AxiosError(
+        '地址不能为空',
+        null,
+        null,
+        null,
+        null,
+    );
+
+
+    if (!Utils.isEmpty(data)) {
         if (['PUT', 'POST', 'PATCH'].includes(axiosReqConfig.method.toUpperCase())) {
             axiosReqConfig.data = data
-        }else{
-            axiosReqConfig.url = Utils.buildUrl(axiosReqConfig.url,data)
+        } else {
+            axiosReqConfig.url = Utils.buildUrl(axiosReqConfig.url, data)
             //axiosReqConfig.params = data
         }
     }
-    if(!Utils.isEmpty(headers)) {
-        axiosReqConfig.headers = Object.assign(axiosReqConfig.headers,headers)
+    if (!Utils.isEmpty(headers)) {
+        axiosReqConfig.headers = Object.assign(axiosReqConfig.headers, headers)
     }
 
 
     return axiosReqConfig
 }
 
-function extendAxios (_axios)  {
+function extendAxios(_axios) {
     _axios.defaults.withCredentials = true
     _axios.defaults.timeout = 0
 
 
-
-    _axios.interceptorsResponseSuccess = async  (response) => {
-        if (!Utils.valueGet(response,'config.isApiRequest',false)) {
-            return  response
+    _axios.interceptorsResponseSuccess = async (response) => {
+        _axios.tryCloseLoading()
+        if (!Utils.valueGet(response, 'config.isApiRequest', false)) {
+            return response
         }
         let res_data = Utils.valueGet(response, 'data', null);
         let axiosError = new AxiosError(
@@ -149,8 +162,9 @@ function extendAxios (_axios)  {
         }
         return res_data;
     }
-    _axios.interceptorsResponseError =  (error)  => {
-        if(!Utils.typeIs('object',error)){
+    _axios.interceptorsResponseError = (error) => {
+        _axios.tryCloseLoading()
+        if (!Utils.typeIs('object', error)) {
             error = new AxiosError()
         }
         let msg = Utils.valueGet(error, 'response.data.message', '')
@@ -159,8 +173,8 @@ function extendAxios (_axios)  {
         } else if ('Unauthenticated.' === msg) {
             msg = '权限不足!'
         }
-        if(!Utils.isEmpty(msg)){
-            error.message += ":"+ msg
+        if (!Utils.isEmpty(msg)) {
+            error.message += ":" + msg
         }
 
 
@@ -176,7 +190,7 @@ function extendAxios (_axios)  {
 
         return Promise.reject(error);
     }
-    _axios.interceptorsRequestBefore  = async (config) => {
+    _axios.interceptorsRequestBefore = async (config) => {
 
         let token = document.head.querySelector('meta[name="csrf-token"]');
         //laravel csrf-token
@@ -198,19 +212,20 @@ function extendAxios (_axios)  {
                 config.headers['ClientSource'] = clientSource;
             }
         }
-        if(true === config?.isApiRequest){
+        if (true === config?.isApiRequest) {
             config.headers['X-Requested-With'] = 'XMLHttpRequest'
         }
 
         let urlParse = Url.parse(config.url)
-        if(Utils.isEmpty(urlParse.protocol) && Utils.isEmpty(config.baseURL) && !Utils.isEmpty(axiosGlobalBaseUrl)) {
+        if (Utils.isEmpty(urlParse.protocol) && Utils.isEmpty(config.baseURL) && !Utils.isEmpty(axiosGlobalBaseUrl)) {
             config.baseURL = axiosGlobalBaseUrl
         }
 
 
         return config;
     }
-    _axios.interceptorsRequestError =  (error) =>  {
+    _axios.interceptorsRequestError = (error) => {
+        _axios.tryCloseLoading()
         if (true !== _axios.requestIsQuiet) {
             _axios.message(error.message, 'error')
         }
@@ -234,7 +249,7 @@ function extendAxios (_axios)  {
             return axiosGlobalMessageHandle(msg, type)
         }
 
-        let windowMessageHandle = Utils.valueGet(window,'_extendMessageHandle',null)
+        let windowMessageHandle = Utils.valueGet(window, '_extendMessageHandle', null)
         if (Utils.typeIs('function', windowMessageHandle)) {
             return windowMessageHandle(msg, type)
         }
@@ -245,13 +260,13 @@ function extendAxios (_axios)  {
     _axios.useLoading = (loadingService) => {
         let _i = _axios.create()
         extendAxios(_i)
-        if(Utils.isEmpty(loadingService)){
+        if (Utils.isEmpty(loadingService)) {
             loadingService = axiosGlobalLoadingServiceHandle()
         }
         _i.loadingService = loadingService;
         return _i;
     }
-    _axios.tryCloseLoading = () =>{
+    _axios.tryCloseLoading = () => {
         if (Utils.isEmpty(_axios.loadingService)) {
             return;
         }
@@ -277,33 +292,57 @@ function extendAxios (_axios)  {
     }
 
 
+    _axios.apiRequest = async (reqConfig, data) => {
+        let axiosReqConfig
+        try {
+            axiosReqConfig = buildAxiosRequestConfig(reqConfig, data)
+        } catch (error) {
+            return _axios.interceptorsRequestError(error)
+        }
 
-    _axios.apiRequest = async (reqConfig,data) => {
-        let axiosReqConfig = buildAxiosRequestConfig(reqConfig,data)
         axiosReqConfig.isApiRequest = true
         return _axios.request(axiosReqConfig)
     }
-    _axios.apiPost = async (url,data,reqConfig) => {
-        let axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+    _axios.apiPost = async (url, data, reqConfig) => {
+        let axiosReqConfig
+        try {
+            axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+        } catch (error) {
+            return _axios.interceptorsRequestError(error)
+        }
         axiosReqConfig.isApiRequest = true
-        return _axios.post(url,data,reqConfig)
+        return _axios.post(url, data, reqConfig)
     }
-    _axios.apiPatch = async (url,params,reqConfig) =>{
-        let axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+    _axios.apiPatch = async (url, params, reqConfig) => {
+        let axiosReqConfig
+        try {
+            axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+        } catch (error) {
+            return _axios.interceptorsRequestError(error)
+        }
         axiosReqConfig.isApiRequest = true
-        return _axios.patch(Utils.buildUrl(url,params),reqConfig)
+        return _axios.patch(Utils.buildUrl(url, params), reqConfig)
     }
-    _axios.apiGet = async (url,params,reqConfig) => {
-        let axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+    _axios.apiGet = async (url, params, reqConfig) => {
+        let axiosReqConfig
+        try {
+            axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+        } catch (error) {
+            return _axios.interceptorsRequestError(error)
+        }
         axiosReqConfig.isApiRequest = true
-        return _axios.get(Utils.buildUrl(url,params),reqConfig)
+        return _axios.get(Utils.buildUrl(url, params), reqConfig)
     }
-    _axios.apiDelete = async (url,params,reqConfig) => {
-        let axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+    _axios.apiDelete = async (url, params, reqConfig) => {
+        let axiosReqConfig
+        try {
+            axiosReqConfig = buildAxiosRequestConfig(reqConfig)
+        } catch (error) {
+            return _axios.interceptorsRequestError(error)
+        }
         axiosReqConfig.isApiRequest = true
-        return _axios.delete(Utils.buildUrl(url,params),reqConfig)
+        return _axios.delete(Utils.buildUrl(url, params), reqConfig)
     }
-
 
 
     _axios.interceptors.request.use(function (config) {
@@ -311,16 +350,14 @@ function extendAxios (_axios)  {
         return _axios.interceptorsRequestBefore(config);
     }, function (error) {
         // 对请求错误做些什么
-        _axios.tryCloseLoading()
         return _axios.interceptorsRequestError(error)
     });
 
     _axios.interceptors.response.use(function (response) {
-        _axios.tryCloseLoading()
+
         return _axios.interceptorsResponseSuccess(response)
 
     }, function (error) {
-        _axios.tryCloseLoading()
         return _axios.interceptorsResponseError(error)
     });
 }
