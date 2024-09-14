@@ -99,7 +99,7 @@ const deleteItem = (item) => {
             </el-col>
             <el-col :span="3" :xs="6">
               <el-form-item label="">
-                <el-input v-model="item.key" :disabled="!!item.required"></el-input>
+                <el-input v-model="item.variable_key" :disabled="!!item.required"></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="5" :xs="10">
