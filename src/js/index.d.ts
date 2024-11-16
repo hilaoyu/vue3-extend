@@ -1,10 +1,11 @@
-import {App} from "@vue/runtime-dom";
+import {App, Component, CreateAppFunction} from "@vue/runtime-core";
 import {UtilsStatic} from "./services/utils";
 import {ValidatorStatic} from "./services/validators";
 import {StorageUtilStatic} from "./services/storage";
 import {AxiosExStatic} from "./services/axios";
 import {AxiosRequestConfig} from "axios";
-export declare function creatExtendApp(rootComponent ?: string, rootProps ?: any): App<Element>;
+export function setUssEsm(v: boolean): void;
+export declare function creatExtendApp<HostElement> (rootComponent?: Component, rootProps?: Record<string, unknown> | null) : App<HostElement>
 export declare var Utils:UtilsStatic
 export declare var Validator:ValidatorStatic
 export declare var StorageUtil:StorageUtilStatic

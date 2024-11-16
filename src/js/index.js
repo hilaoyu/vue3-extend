@@ -1,6 +1,10 @@
 "use strict";
 
+let useEsm = false
 
+export function setUssEsm(v) {
+    useEsm = !!v
+}
 import axios,{setAxiosGlobalMessageHandle,buildAxiosRequestConfig,setAxiosGlobalLoadingServiceHandle} from "./services/axios";
 
 import('./services/prototypes');
@@ -18,8 +22,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import VueClipboard from 'vue-clipboard3'
 window._copyText = VueClipboard().toClipboard
 import extendComponentsRegister from './extend-components-register'
-import { createApp } from 'vue/dist/vue.esm-bundler'
+import { createApp as createEsmApp } from 'vue/dist/vue.esm-bundler'
 
+import { createApp } from 'vue'
 
 
 setAxiosGlobalMessageHandle(function (msg,type){
@@ -59,7 +64,13 @@ setAxiosGlobalLoadingServiceHandle(function (){
 })
 
 function creatExtendApp(rootComponent,rootProps) {
-    const app = createApp(rootComponent,rootProps)
+    let app
+    if(useEsm){
+        app = createEsmApp(rootComponent,rootProps)
+    }else{
+        app = createApp(rootComponent,rootProps)
+    }
+
     app.config.globalProperties.$copyText = VueClipboard().toClipboard
     app.config.globalProperties.$windowReload = function () {
         window.location.reload();
