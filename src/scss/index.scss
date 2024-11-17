@@ -3,9 +3,10 @@
  */
 $blue:    #409EFF !default;
 $info:    #909399 !default;
+$black:    #333333 !default;
 
-
-@import "bootstrap";
+@use "bootstrap";
+@use "element-plus/dist/index.css";
 .nav-link.active,.show>.nav-link {
     background-color: #efefef;
 }
@@ -15,7 +16,7 @@ $info:    #909399 !default;
     }
 }
 
-@import "element-plus/dist/index.css";
+
 
 
 /*app*/
