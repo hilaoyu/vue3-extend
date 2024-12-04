@@ -7,9 +7,6 @@ export function setUssEsm(v) {
 }
 
 
-import jquery from 'jquery'
-window.jQuery = jquery
-
 
 import {setAxiosGlobalMessageHandle,setAxiosGlobalLoadingServiceHandle,Utils} from 'js-utils'
 
@@ -60,7 +57,7 @@ setAxiosGlobalLoadingServiceHandle(function (){
     })
 })
 
-function creatExtendApp(rootComponent,rootProps) {
+export function creatExtendApp(rootComponent,rootProps) {
     let app
     if(useEsm){
         app = createEsmApp(rootComponent,rootProps)
@@ -92,7 +89,3 @@ export * from "js-utils";
 export * from "./services/validators";
 export * from "./services/storage";
 export * from "./services/api-auth";
-
-export  {
-    creatExtendApp
-}
