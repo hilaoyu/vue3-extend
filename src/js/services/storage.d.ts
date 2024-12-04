@@ -34,5 +34,5 @@ export  interface StorageUtilStatic {
 
     getAuthToken(key: any, defaultValue: any): void;
 }
-declare const StorageUtil:StorageUtilStatic
+export const StorageUtil:StorageUtilStatic
 export default StorageUtil

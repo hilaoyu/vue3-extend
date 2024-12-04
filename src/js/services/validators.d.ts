@@ -6,5 +6,5 @@ export  interface ValidatorStatic {
 
     validatePasswordStrong(rule: any, value: string, callback: CallableFunction): void;
 }
-declare const Validator:ValidatorStatic
+export const  Validator:ValidatorStatic
 export default Validator

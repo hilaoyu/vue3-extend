@@ -5,16 +5,13 @@ let useEsm = false
 export function setUssEsm(v) {
     useEsm = !!v
 }
-import axios,{setAxiosGlobalMessageHandle,buildAxiosRequestConfig,setAxiosGlobalLoadingServiceHandle} from "./services/axios";
 
-import('./services/prototypes');
+
 import jquery from 'jquery'
 window.jQuery = jquery
 
-import Utils from './services/utils'
-import Validator from './services/validators'
-import StorageUtil from './services/storage'
-import ApiAuth from './services/api-auth'
+
+import {setAxiosGlobalMessageHandle,setAxiosGlobalLoadingServiceHandle,Utils} from 'js-utils'
 
 import ElementUI,{ ElMessage,ElLoading } from 'element-plus'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
@@ -87,15 +84,15 @@ function creatExtendApp(rootComponent,rootProps) {
     return app
 }
 
+import "./services/validators";
+import "./services/storage";
+import "./services/api-auth";
+
+export * from "js-utils";
+export * from "./services/validators";
+export * from "./services/storage";
+export * from "./services/api-auth";
 
 export  {
-    creatExtendApp,
-    Utils,
-    Validator,
-    StorageUtil,
-    axios,
-    setAxiosGlobalMessageHandle,
-    setAxiosGlobalLoadingServiceHandle,
-    buildAxiosRequestConfig,
-    ApiAuth,
+    creatExtendApp
 }

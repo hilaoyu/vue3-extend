@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import {defineProps, getCurrentInstance, ref} from 'vue';
-import Utils from "../../services/utils";
+import {Utils,axios} from "js-utils";
 import Validators from '../../services/validators'
 import type {FormInstance} from 'element-plus'
-import axios,{buildAxiosRequestConfig} from "../../services/axios";
 
 const {proxy, ctx} = getCurrentInstance()
 const props = defineProps({
@@ -46,7 +45,7 @@ const changePassForm = ref<FormInstance>()
 const changPassSubmit = () => {
   changePassForm.value.validate((valid) => {
     if (valid) {
-      axios.apiRequest(buildAxiosRequestConfig(props.apiChangePass, formData.value))
+      axios.apiRequest(props.apiChangePass, formData.value)
           .then(function (res_data) {
             proxy.$message.success('修改成功');
             changePassForm.value.resetFields();

@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 import { defineProps, ref,getCurrentInstance,nextTick} from 'vue';
-import Utils from "../services/le-utils"
+import {Utils} from "js-utils";
 const props =defineProps({
   dataFile: {
     type: [Object, String],
@@ -51,7 +51,7 @@ const assignFileObj =  (data) => {
   fileObj.value = Object.assign({}, fileObj, data);
   fileViewType.value = props.defaultType;
   nextTick(function (){
-    fileViewType.value = LeUtils.valueGet(fileObj.value,'type',props.defaultType);
+    fileViewType.value = Utils.valueGet(fileObj.value,'type',props.defaultType);
   })
 }
 const viewImage = (src) =>{
@@ -60,20 +60,20 @@ const viewImage = (src) =>{
 
 }
 const buildUrl = (uri, params) => {
-  return LeUtils.buildUrl(uri, params)
+  return Utils.buildUrl(uri, params)
 
 }
 const getFileName = () =>{
-  if (!LeUtils.isEmpty(props.fileName)) {
+  if (!Utils.isEmpty(props.fileName)) {
     return props.fileName;
   }
-  let fileName = LeUtils.valueGet(fileObj.value, 'name', '');
+  let fileName = Utils.valueGet(fileObj.value, 'name', '');
 
   if (fileName) {
     return fileName;
   }
 
-  return LeUtils.baseName(LeUtils.valueGet(fileObj.value, 'url', ''))
+  return Utils.baseName(Utils.valueGet(fileObj.value, 'url', ''))
 }
 const handleViewImageClose = () => {
   currentViewImageSrc.value = '';

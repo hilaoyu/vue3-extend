@@ -2,8 +2,7 @@
 <script setup lang="ts">
 import {defineProps, getCurrentInstance, ref} from 'vue';
 import Validators from '../../services/validators'
-import axios,{buildAxiosRequestConfig} from "../../services/axios";
-import Utils from "../../services/utils";
+import {Utils,axios} from "js-utils";
 
 const {proxy, ctx} = getCurrentInstance()
 const props = defineProps({
@@ -44,7 +43,7 @@ const send = () => {
     }
     sendFormData.value.mobile = props.sendTo
 
-    axios.apiRequest(buildAxiosRequestConfig(props.apiSendSms,sendFormData)).then(function (res) {
+    axios.apiRequest(props.apiSendSms,sendFormData).then(function (res) {
 
       let _status = Utils.valueGet(res,'status',false)
       if (_status) {

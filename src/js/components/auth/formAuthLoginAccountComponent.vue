@@ -1,7 +1,7 @@
 
 <script setup lang="ts">
 import {defineProps, getCurrentInstance, ref,nextTick} from 'vue';
-import Utils from "../../services/utils";
+import {Utils} from "js-utils";
 import ApiAuth from '../../services/api-auth'
 import type { FormInstance } from 'element-plus'
 

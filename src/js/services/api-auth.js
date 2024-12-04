@@ -1,7 +1,6 @@
-import axios from './axios'
-import Utils from './utils'
+import {axios,Utils} from 'js-utils'
 import Storage from './storage'
-const ApiAuth = {
+export const ApiAuth = {
     login :function (api,data) {
 
         Storage.setClientSource();

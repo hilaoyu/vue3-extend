@@ -2,8 +2,7 @@
 
 <script setup lang="ts">
 import {defineProps, ref,defineExpose} from 'vue';
-import axios ,{buildAxiosRequestConfig} from "../../services/axios";
-import Utils from "../../services/utils";
+import {Utils,axios} from "js-utils";
 
 
 const props = defineProps({
@@ -21,7 +20,7 @@ const captcha_id = ref('')
 const captcha_val = ref('')
 const codeSrc = ref('')
 const loadImage = () => {
-  axios.quiet(true).apiRequest(buildAxiosRequestConfig(props.apiCaptchaImage, {h: props.imgHeight, w: props.imgWidth})).then(function (res) {
+  axios.quiet(true).apiRequest(props.apiCaptchaImage, {h: props.imgHeight, w: props.imgWidth}).then(function (res) {
 
     let _status = res.status || false;
     if (_status) {

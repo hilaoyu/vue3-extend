@@ -2,7 +2,6 @@
 
 <script setup lang="ts">
 import {defineProps, getCurrentInstance, ref} from 'vue';
-import Utils from "../../services/utils";
 import ApiAuth from "../../services/api-auth";
 
 const {proxy, ctx} = getCurrentInstance()

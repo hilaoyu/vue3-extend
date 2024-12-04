@@ -1,6 +1,5 @@
 <script lang="ts" setup>
-import Utils from "../../services/utils";
-import axios from "../../services/axios";
+import {Utils,axios} from "js-utils";
 import {defineProps, getCurrentInstance, nextTick, ref} from 'vue';
 
 const props = defineProps({

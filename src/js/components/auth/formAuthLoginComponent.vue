@@ -2,7 +2,7 @@
 
 <script setup lang="ts">
 import {defineProps, getCurrentInstance, ref} from 'vue';
-import Utils from "../../services/utils";
+import {Utils} from "js-utils";
 
 const {proxy, ctx} = getCurrentInstance()
 const props = defineProps({

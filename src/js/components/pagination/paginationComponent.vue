@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import {defineProps, getCurrentInstance, ref, watch} from 'vue';
-import Utils from "../../services/utils";
+import {Utils} from "js-utils";
 const {proxy, ctx} = getCurrentInstance()
 const props = defineProps({
   small: Boolean,
