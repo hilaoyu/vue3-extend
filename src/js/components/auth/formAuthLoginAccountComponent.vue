@@ -1,6 +1,6 @@
 
 <script setup lang="ts">
-import {defineProps, getCurrentInstance, ref,nextTick} from 'vue';
+import {defineProps, getCurrentInstance, ref,nextTick,onMounted} from 'vue';
 import {Utils} from "js-utils";
 import ApiAuth from '../../services/api-auth'
 import type { FormInstance } from 'element-plus'
@@ -73,7 +73,7 @@ const refreshCaptchaImage = () => {
   proxy.$refs?.inputCaptchaImage?.loadImage()
 }
 
-nextTick(function (){
+onMounted(function (){
   Utils.listenKeyUp('enter', 'login', function () {
     authLogin();
   })

@@ -1,7 +1,7 @@
 
 
 <script setup lang="ts">
-import {defineProps, getCurrentInstance, ref,nextTick} from 'vue';
+import {defineProps, getCurrentInstance, ref,onMounted} from 'vue';
 import {Utils} from "js-utils";
 import Validator from "../../services/validators";
 import ApiAuth from '../../services/api-auth'
@@ -61,7 +61,7 @@ const authLogin = () =>{
 
 }
 
-nextTick(function (){
+onMounted(function (){
   Utils.listenKeyUp('enter', 'login', function () {
     authLogin();
   })
