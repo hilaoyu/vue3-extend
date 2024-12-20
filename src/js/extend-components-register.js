@@ -17,6 +17,8 @@ import pagination from './components/pagination/paginationComponent.vue'
 import listVariablesEntities from './components/variables/listVariablesEntitiesComponent.vue'
 import variableFormItemValue from './components/variables/variableFormItemValueComponent.vue'
 
+import fileInput from './components/files/fileInputComponent.vue'
+
 function extendComponentsRegister(vueApp){
     vueApp.component('password-view', passwordView);
     vueApp.component('copy-view', copyView);
@@ -36,6 +38,8 @@ function extendComponentsRegister(vueApp){
 
     vueApp.component('list-variables-entities', listVariablesEntities);
     vueApp.component('variable-form-item', variableFormItemValue);
+
+    vueApp.component('file-input', fileInput);
 
 
 }
