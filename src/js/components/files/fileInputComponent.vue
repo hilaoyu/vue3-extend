@@ -80,6 +80,7 @@ const addInput = ()=>{
 }
 const removeInput = (index) => {
   fileQueue.value.splice(index,1)
+  handleOnInputChange()
 }
 
 onMounted(function (){
