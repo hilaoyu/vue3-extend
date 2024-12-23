@@ -8,6 +8,10 @@ const props = defineProps<{
   generateTokenCallback: Function,
   multiple:boolean,
 }>()
+const emits = defineEmits<{
+  change: [values: Array<string>] // named tuple syntax
+  finished: [values: Array<string>]
+}>()
 
 const uploader = new Uploader("", true)
 //new Uploader 第二个参数为是否自动开始上传。如果为true,那么添加文件以后会自动开始上传，否则需要手动用 uploader.startUpload() 启动上传
@@ -31,18 +35,22 @@ uploader.setEventOnFileQueueChange(function (queue, changedIndex) {
   handleOnInputChange()
 })
 
-uploader.setEventOnUploadFinished(function (){
-  proxy.$emit("finished")
-})
-
-const handleOnInputChange =() =>{
+const getInputValues = () => {
   let values = []
   fileQueue.value.forEach(function (fq){
     if ("" != fq.value){
       values.push(fq.value)
     }
   })
-  proxy.$emit("change",values)
+  return values
+}
+
+uploader.setEventOnUploadFinished(function (){
+  emits("finished",getInputValues())
+})
+
+const handleOnInputChange =() =>{
+  emits("change",getInputValues())
 }
 
 
