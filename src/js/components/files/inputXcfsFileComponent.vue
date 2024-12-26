@@ -11,7 +11,7 @@ const props = defineProps({
       return Promise.reject("generateTokenCallback 必传")
     }
   },
-  previewUrlCallback:{
+  previewCallback:{
     type:Function,
     default:null
   },
@@ -76,8 +76,8 @@ const preview = (uri) => {
     return;
   }
   let _this = this;
-  if (Utils.typeIs('function', props.previewUrlCallback)) {
-    return props.previewUrlCallback(uri)
+  if (Utils.typeIs('function', props.previewCallback)) {
+    return props.previewCallback(uri)
   }
   Utils.linkClick(uri,"_blank")
   return
@@ -102,7 +102,7 @@ const handleOnInputChange =() =>{
 }
 
 const selectFileToUploader = (valueIndex) => {
-
+  fileQueue.value[valueIndex].canceled = false
   props.generateTokenCallback().then(function (res_data) {
     let serviceUrl = Utils.valueGet(res_data, "data.service_url")
     uploader.setServerUrl(serviceUrl)
@@ -117,7 +117,7 @@ const selectFileToUploader = (valueIndex) => {
     }
     uploader.setFileLimitAllowExt(Utils.valueGet(res_data, "data.allow_ext", []))
 
-    uploader.selectFile(props.multiple,!props.multiple,valueIndex)
+    uploader.selectFile(false,!props.multiple,valueIndex)
   }).catch(function (err){
     proxy.$message.error(err.message)
   })
@@ -210,17 +210,17 @@ if(Utils.typeIs('array',props.dataValue) && props.dataValue.length > 0){
       <div class="d-flex flex-grow-1 " >
 
         <template v-if="fileQueue[i].queueItem">
-        <div class="flex-grow-1">
-          <el-progress  :text-inside="true" :stroke-width="32"
-                        :percentage="fileQueue[i].queueItem.chunksCompletedPercent">
+          <div class="flex-grow-1">
+            <el-progress  :text-inside="true" :stroke-width="32"
+                          :percentage="fileQueue[i].queueItem.chunksCompletedPercent">
 
               <span class="">{{fileQueue[i].queueItem.chunksCompletedPercent}}%</span>
               <span class="ms-3">{{fileQueue[i].queueItem.file.name}}</span>
-          </el-progress>
-        </div>
-        <div >
-          <el-icon :size="24" class="mt-1" v-if="fileQueue[i].queueItem.uploadCompleted"  @click="cancelUpload(i)" style="cursor: pointer;" ><CircleClose /></el-icon>
-        </div>
+            </el-progress>
+          </div>
+          <div >
+            <el-icon :size="24" class="mt-1" v-if="fileQueue[i].queueItem.uploadCompleted"  @click="cancelUpload(i)" style="cursor: pointer;" ><CircleClose /></el-icon>
+          </div>
         </template>
       </div>
 
