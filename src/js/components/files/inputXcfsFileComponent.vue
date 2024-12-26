@@ -219,7 +219,7 @@ if(Utils.typeIs('array',props.dataValue) && props.dataValue.length > 0){
             </el-progress>
           </div>
           <div >
-            <el-icon :size="24" class="mt-1" v-if="fileQueue[i].queueItem.uploadCompleted"  @click="cancelUpload(i)" style="cursor: pointer;" ><CircleClose /></el-icon>
+            <el-icon :size="24" class="mt-1" v-if="!fileQueue[i].queueItem.uploadCompleted"  @click="cancelUpload(i)" style="cursor: pointer;" ><CircleClose /></el-icon>
           </div>
         </template>
       </div>
