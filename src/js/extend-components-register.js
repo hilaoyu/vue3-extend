@@ -41,7 +41,7 @@ function extendComponentsRegister(vueApp){
     vueApp.component('variable-form-item', variableFormItemValue);
 
     vueApp.component('input-xcfs-file', inputXcfsFile);
-    app.component('input-rich-editor-with-xcfs', inputRichEditorWithXcfs);
+    vueApp.component('input-rich-editor-with-xcfs', inputRichEditorWithXcfs);
 
 
 }
