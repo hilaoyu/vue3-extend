@@ -219,8 +219,7 @@ const uploadFinishedEnevt = function (emType){
           </el-progress>
         </div>
         <div>
-          <i v-if="!uploadTask.uploadCompleted" class="el-icon-circle-close"
-             style="cursor: pointer;font-size: 28px" @click="uploadTask.remove()"></i>
+          <el-icon :size="24" class="mt-1" v-if="!uploadTask.uploadCompleted"  @click="uploadTask.remove()" style="cursor: pointer;" ><CircleClose /></el-icon>
         </div>
       </div>
 
