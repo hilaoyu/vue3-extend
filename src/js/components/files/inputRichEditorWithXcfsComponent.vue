@@ -123,21 +123,23 @@ uploader.setEventOnFileQueueChange(function (queue, changedIndex) {
 let quill  = null
 
 onMounted(function (){
-  quill = new Quill("#" + editorId, {
-    theme: "snow",
-    bounds: "#" + editorId + '-container',
-    readOnly: props.disabled,
-    modules: {
-      toolbar: toolbarOptions
-    },
-  });
-  quill.on('editor-change', (eventName, ...args) => {
-    emits("change",quill.getSemanticHTML())
-  });
+  nextTick(function (){
+    quill = new Quill("#" + editorId, {
+      theme: "snow",
+      bounds: "#" + editorId + '-container',
+      readOnly: props.disabled,
+      modules: {
+        toolbar: toolbarOptions
+      },
+    });
+    quill.on('editor-change', (eventName, ...args) => {
+      emits("change",quill.getSemanticHTML())
+    });
 
-  const toolbar = quill.getModule('toolbar');
-  toolbar.addHandler('image', selectFileToUploader('image'));
-  toolbar.addHandler('video', selectFileToUploader('video'));
+    const toolbar = quill.getModule('toolbar');
+    toolbar.addHandler('image', selectFileToUploader('image'));
+    toolbar.addHandler('video', selectFileToUploader('video'));
+  })
 })
 
 
