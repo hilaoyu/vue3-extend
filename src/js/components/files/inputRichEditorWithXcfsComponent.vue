@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import {defineProps, getCurrentInstance, computed, ref,defineEmits,onMounted} from 'vue';
+import {defineProps, getCurrentInstance, computed, ref,defineEmits,onMounted,nextTick} from 'vue';
 import {Uploader,Utils,type  fileQueueItem} from 'js-utils';
 import "quill/dist/quill.snow.css";
 import Quill from "quill/core";
@@ -109,9 +109,14 @@ uploader.setLimitMaxThreads(5)
 uploader.setEventOnError(function (err) {
   proxy.$message.error(err.message)
 })
+
+const uploadTaskRefresh = ref<boolean>(true)
 uploader.setEventOnFileQueueChange(function (queue, changedIndex) {
   uploadTask.value = Utils.valueGet(queue,'0',null)
-
+  uploadTaskRefresh.value = false
+  nextTick(function (){
+    uploadTaskRefresh.value = true
+  })
 })
 
 
@@ -208,7 +213,7 @@ const uploadFinishedEnevt = function (emType){
         width="50%">
       <div class="d-flex">
         <div class="flex-grow-1">
-          <el-progress :text-inside="true" :stroke-width="26" :percentage="uploadTask.chunksCompletedPercent" >
+          <el-progress v-if="uploadTaskRefresh" :text-inside="true" :stroke-width="26" :percentage="uploadTask.chunksCompletedPercent" >
           </el-progress>
         </div>
         <div>
