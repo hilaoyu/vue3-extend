@@ -18,6 +18,7 @@ import listVariablesEntities from './components/variables/listVariablesEntitiesC
 import variableFormItemValue from './components/variables/variableFormItemValueComponent.vue'
 
 import inputXcfsFile from './components/files/inputXcfsFileComponent.vue'
+import inputRichEditorWithXcfs from './components/files/inputRichEditorWithXcfsComponent.vue'
 
 function extendComponentsRegister(vueApp){
     vueApp.component('password-view', passwordView);
@@ -40,6 +41,7 @@ function extendComponentsRegister(vueApp){
     vueApp.component('variable-form-item', variableFormItemValue);
 
     vueApp.component('input-xcfs-file', inputXcfsFile);
+    app.component('input-rich-editor-with-xcfs', inputRichEditorWithXcfs);
 
 
 }

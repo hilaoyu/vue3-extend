@@ -18,11 +18,12 @@
   "sass": "src/scss/index.scss",
   "dependencies": {
     "@element-plus/icons-vue": "^2.3.1",
-    "js-utils": "git+https://gitee.com/hilaoyu/js-utils.git",
     "bootstrap": "^5.3.3",
     "element-plus": "^2.7.1",
     "js-base64": "^3.7.7",
     "js-cookie": "^3.0.5",
+    "js-utils": "git+https://gitee.com/hilaoyu/js-utils.git",
+    "quill": "^2.0.3",
     "tern": "^0.24.3",
     "unplugin-auto-import": "^0.17.5",
     "unplugin-vue-components": "^0.26.0",
