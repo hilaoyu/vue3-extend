@@ -96,7 +96,7 @@ const emits = defineEmits<{
   change: [value: string]
 }>()
 
-const editorId =  Utils.randomString(32)
+const editorId =  'quill-'+Utils.randomString(32)
 const editorValue = ref(props.value)
 const uploadTask = ref<fileQueueItem|null>(null)
 
