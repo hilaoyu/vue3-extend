@@ -1,0 +1,75 @@
+.ql-picker.ql-size{
+  .ql-picker-label[data-value='0.5rem']::before,
+  .ql-picker-item[data-value='0.5rem']::before{
+    content: '0.5rem' !important;
+  }
+  .ql-picker-item[data-value='0.5rem']::before{
+    font-size: 0.5rem  !important;
+  }
+
+  .ql-picker-label[data-value='0.75rem']::before,
+  .ql-picker-item[data-value='0.75rem']::before{
+    content: '0.75rem' !important;
+  }
+  .ql-picker-item[data-value='0.75rem']::before{
+    font-size: 0.575rem !important;
+  }
+
+  .ql-picker-label[data-value='1rem']::before,
+  .ql-picker-item[data-value='1rem']::before{
+    content: '1rem' !important;
+  }
+  .ql-picker-item[data-value='1rem']::before{
+    font-size: 1rem !important;
+  }
+
+  .ql-picker-label[data-value='1.25rem']::before,
+  .ql-picker-item[data-value='1.25rem']::before{
+    content: '1.25rem' !important;
+  }
+  .ql-picker-item[data-value='1.25rem']::before{
+    font-size: 1.25rem !important;
+  }
+
+  .ql-picker-label[data-value='1.5rem']::before,
+  .ql-picker-item[data-value='1.5rem']::before{
+    content: '1.5rem' !important;
+  }
+  .ql-picker-item[data-value='1.5rem']::before{
+    font-size: 1.5rem !important;
+  }
+
+  .ql-picker-label[data-value='1.75rem']::before,
+  .ql-picker-item[data-value='1.75rem']::before{
+    content: '1.75rem' !important;
+  }
+  .ql-picker-item[data-value='1.75rem']::before{
+    font-size: 1.75rem !important;
+  }
+
+  .ql-picker-label[data-value='2rem']::before,
+  .ql-picker-item[data-value='2rem']::before{
+    content: '2rem' !important;
+  }
+  .ql-picker-item[data-value='2rem']::before{
+    font-size: 2rem !important;
+  }
+
+  .ql-picker-label[data-value='2.5rem']::before,
+  .ql-picker-item[data-value='2.5rem']::before{
+    content: '2.5rem' !important;
+  }
+  .ql-picker-item[data-value='2.5rem']::before{
+    font-size: 2.5rem !important;
+  }
+
+  .ql-picker-label[data-value='3rem']::before,
+  .ql-picker-item[data-value='3rem']::before{
+    content: '3rem' !important;
+  }
+  .ql-picker-item[data-value='3rem']::before{
+    font-size: 3rem !important;
+  }
+
+
+}

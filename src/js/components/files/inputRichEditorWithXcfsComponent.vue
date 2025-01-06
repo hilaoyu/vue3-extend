@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import {defineProps, getCurrentInstance, computed, ref,defineEmits,onMounted,nextTick} from 'vue';
-import {Uploader,Utils,type  fileQueueItem} from 'js-utils';
+import {computed, defineEmits, defineProps, getCurrentInstance, nextTick, onMounted, ref} from 'vue';
+import {type  fileQueueItem, Uploader, Utils} from 'js-utils';
 import "quill/dist/quill.snow.css";
 import Quill from "quill/core";
 import Toolbar from "quill/modules/toolbar";
@@ -18,8 +18,6 @@ import List from "quill/formats/list";
 import Script from "quill/formats/script";
 //import { DirectionAttribute } from "quill/formats/direction";
 import {SizeStyle} from "quill/formats/size";
-
-SizeStyle.whitelist = ['0.5rem', '0.75rem', '1rem', '1.25rem', '1.5rem', '1.75rem', '2rem'];
 import Blockquote from "quill/formats/blockquote";
 import Code from "quill/formats/code";
 import {ColorStyle} from "quill/formats/color";
@@ -28,51 +26,53 @@ import {BackgroundStyle} from "quill/formats/background";
 import Image from "quill/formats/image";
 import Video from "quill/formats/video";
 
+SizeStyle.whitelist = ['0.5rem', '0.75rem', '1rem', '1.25rem', '1.5rem', '1.75rem', '2rem', '2.5rem', '3rem']
+
 Quill.register({
-    "modules/toolbar": Toolbar,
-    "themes/snow": Snow,
+  "modules/toolbar": Toolbar,
+  "themes/snow": Snow,
 
-    "formats/header": Header,
-    "formats/indent": Indent,
+  "formats/header": Header,
+  "formats/indent": Indent,
 
-    "formats/bold": Bold,
-    "formats/italic": Italic,
-    "formats/underline": Underline,
-    "formats/strike": Strike,
+  "formats/bold": Bold,
+  "formats/italic": Italic,
+  "formats/underline": Underline,
+  "formats/strike": Strike,
 
-    "formats/list": List,
-    "formats/script": Script,
-    "formats/size": SizeStyle,
+  "formats/list": List,
+  "formats/script": Script,
+  "formats/size": SizeStyle,
 
-    //"formats/direction": DirectionAttribute,
+  //"formats/direction": DirectionAttribute,
 
-    "formats/blockquote": Blockquote,
-    "formats/code-block": Code,
-    "formats/color": ColorStyle,
-    "formats/background": BackgroundStyle,
+  "formats/blockquote": Blockquote,
+  "formats/code-block": Code,
+  "formats/color": ColorStyle,
+  "formats/background": BackgroundStyle,
 
-    'formats/image': Image,
-    'formats/video': Video,
+  'formats/image': Image,
+  'formats/video': Video,
 });
 
 const toolbarOptions = [
-    [{'header': [1, 2, 3, 4, 5, 6, false]}],
+  [{'header': [1, 2, 3, 4, 5, 6, false]}],
 
-    [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
-    [{'size': [false, '0.5rem', '0.75rem', '1rem', '1.25rem', '1.5rem', '1.75rem', '2rem']}],  // custom dropdown
-    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+  [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+  [{'size': [false, '0.5rem', '0.75rem', '1rem', '1.25rem', '1.5rem', '1.75rem', '2rem', '2.5rem', '3rem']}],
+  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
 
-    [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
+  [{'list': 'ordered'}, {'list': 'bullet'}, {'list': 'check'}],
 
-    ['blockquote', 'code-block', {'script': 'sub'}, {'script': 'super'}],
+  ['blockquote', 'code-block', {'script': 'sub'}, {'script': 'super'}],
 
-    //[{ 'direction': 'rtl' }],                         // text direction
+  //[{ 'direction': 'rtl' }],                         // text direction
 
-    ['link', 'formula', 'image', 'video'],
+  ['link', 'formula', 'image', 'video'],
 
-    [{'color': []}, {'background': []}],          // dropdown with defaults from them
+  [{'color': []}, {'background': []}],          // dropdown with defaults from them
 
-    ['clean']                                         // remove formatting button
+  ['clean']                                         // remove formatting button
 ];
 
 const {proxy, ctx} = getCurrentInstance()
@@ -96,9 +96,9 @@ const emits = defineEmits<{
   change: [value: string]
 }>()
 
-const editorId =  'quill-'+Utils.randomString(32)
+const editorId = 'quill-' + Utils.randomString(32)
 const editorValue = ref(props.value)
-const uploadTask = ref<fileQueueItem|null>(null)
+const uploadTask = ref<fileQueueItem | null>(null)
 
 const uploadHasTask = computed(() => !!uploadTask.value)
 
@@ -112,18 +112,18 @@ uploader.setEventOnError(function (err) {
 
 const uploadTaskRefresh = ref<boolean>(true)
 uploader.setEventOnFileQueueChange(function (queue, changedIndex) {
-  uploadTask.value = Utils.valueGet(queue,'0',null)
+  uploadTask.value = Utils.valueGet(queue, '0', null)
   uploadTaskRefresh.value = false
-  nextTick(function (){
+  nextTick(function () {
     uploadTaskRefresh.value = true
   })
 })
 
 
-let quill  = null
+let quill = null
 
-onMounted(function (){
-  nextTick(function (){
+onMounted(function () {
+  nextTick(function () {
     quill = new Quill("#" + editorId, {
       theme: "snow",
       bounds: "#" + editorId + '-container',
@@ -133,7 +133,7 @@ onMounted(function (){
       },
     });
     quill.on('editor-change', (eventName, ...args) => {
-      emits("change",quill.getSemanticHTML())
+      emits("change", quill.getSemanticHTML())
     });
 
     const toolbar = quill.getModule('toolbar');
@@ -145,7 +145,7 @@ onMounted(function (){
 
 const selectFileToUploader = function (emType) {
 
-  return function (){
+  return function () {
     uploader.setEventOnUploadFinished(uploadFinishedEnevt(emType))
 
     props.generateTokenCallback().then(function (res_data) {
@@ -170,23 +170,23 @@ const selectFileToUploader = function (emType) {
   }
 }
 
-const uploadFinishedEnevt = function (emType){
+const uploadFinishedEnevt = function (emType) {
   return function (urls) {
     uploadTask.value = null
 
-    if(!quill){
+    if (!quill) {
       return
     }
 
     let url = ""
-    if(Utils.typeIs('array',urls) && urls.length > 0){
+    if (Utils.typeIs('array', urls) && urls.length > 0) {
       url = urls[0]
     }
-    if(!!url){
+    if (!!url) {
       let range = quill.getSelection();
       let rangeIndex = 0 + (range !== null ? range.index : 0)
 
-      switch (emType){
+      switch (emType) {
         case "image":
           quill.insertEmbed(rangeIndex, 'image', url);
           break
@@ -215,11 +215,15 @@ const uploadFinishedEnevt = function (emType){
         width="50%">
       <div class="d-flex">
         <div class="flex-grow-1">
-          <el-progress v-if="uploadTaskRefresh" :text-inside="true" :stroke-width="26" :percentage="uploadTask.chunksCompletedPercent" >
+          <el-progress v-if="uploadTaskRefresh" :text-inside="true" :stroke-width="26"
+                       :percentage="uploadTask.chunksCompletedPercent">
           </el-progress>
         </div>
         <div>
-          <el-icon :size="24" class="mt-1" v-if="!uploadTask.uploadCompleted"  @click="uploadTask.remove()" style="cursor: pointer;" ><CircleClose /></el-icon>
+          <el-icon :size="24" class="mt-1" v-if="!uploadTask.uploadCompleted" @click="uploadTask.remove()"
+                   style="cursor: pointer;">
+            <CircleClose/>
+          </el-icon>
         </div>
       </div>
 
