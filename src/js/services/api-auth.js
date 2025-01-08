@@ -1,5 +1,6 @@
 import {axios,Utils} from 'js-utils'
 import Storage from './storage'
+axios.defaults.withCredentials = true
 export const ApiAuth = {
     login :function (api,data) {
 
