@@ -1,10 +1,9 @@
-import {axios,Utils} from 'js-utils'
-import Storage from './storage'
-axios.defaults.withCredentials = true
+import {axios,Utils,StorageUtil} from 'js-utils'
+
 export const ApiAuth = {
     login :function (api,data) {
 
-        Storage.setClientSource();
+        StorageUtil.setClientSource();
 
         return axios.apiRequest(api,data)
             .then(function (res_data) {
@@ -12,7 +11,7 @@ export const ApiAuth = {
                 let user = Utils.valueGet(data, 'user', null);
                 let token = Utils.valueGet(data, 'token', null);
                 if (user) {
-                    Storage.saveAuthInfo(user, token)
+                    StorageUtil.saveAuthInfo(user, token)
                 }
                 return data
             })
@@ -24,19 +23,19 @@ export const ApiAuth = {
                 let user = Utils.valueGet(data, 'user', null);
                 let token = Utils.valueGet(data, 'token', null);
                 if (user) {
-                    Storage.saveAuthInfo(user, token)
+                    StorageUtil.saveAuthInfo(user, token)
                 }
                 return data
             }).catch(function (error){
-                Storage.clearAuthInfo();
-                Storage.removeClientSource();
+                StorageUtil.clearAuthInfo();
+                StorageUtil.removeClientSource();
             });
     },
     logout :function (api) {
         return axios.apiRequest(api)
             .then(function (res_data) {
-                Storage.clearAuthInfo();
-                Storage.removeClientSource();
+                StorageUtil.clearAuthInfo();
+                StorageUtil.removeClientSource();
                 return res_data;
             })
     }
