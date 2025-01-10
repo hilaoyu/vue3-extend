@@ -3,7 +3,7 @@
     "name": "hilaoyu"
   },
   "name": "vue3-extend",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "mozhe vrm",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
