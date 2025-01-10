@@ -82,10 +82,8 @@ export function creatExtendApp(rootComponent,rootProps) {
 }
 
 import "./services/validators";
-import "./services/storage";
 import "./services/api-auth";
 
 export * from "js-utils";
 export * from "./services/validators";
-export * from "./services/storage";
 export * from "./services/api-auth";

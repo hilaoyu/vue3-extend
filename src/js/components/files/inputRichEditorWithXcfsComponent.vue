@@ -146,7 +146,7 @@ onMounted(function () {
 const selectFileToUploader = function (emType) {
 
   return function () {
-    uploader.setEventOnUploadFinished(uploadFinishedEnevt(emType))
+    uploader.setEventOnUploadFinished(uploadFinishedEvent(emType))
 
     props.generateTokenCallback().then(function (res_data) {
 
@@ -170,7 +170,7 @@ const selectFileToUploader = function (emType) {
   }
 }
 
-const uploadFinishedEnevt = function (emType) {
+const uploadFinishedEvent = function (emType) {
   return function (urls) {
     uploadTask.value = null
 
