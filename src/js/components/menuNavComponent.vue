@@ -38,7 +38,7 @@ const isCollapse = ref(false);
 const isEllipsis = ref(false);
 
 const defaultActiveIndex = ref("");
-const navMenuContent = ref(null);
+const refMenuItems = ref([]);
 
 
 // ---------- 初始化菜单 ----------
@@ -63,7 +63,9 @@ const loadMenus =  () => {
 const menuRefresh = () => {
   nextTick(function (){
     initDisplay();
-    computeActiveIndex();
+    nextTick(function (){
+      computeActiveIndex();
+    });
   });
 }
 // ---------- 计算 activeIndex ----------
@@ -80,8 +82,7 @@ const computeActiveIndex = () => {
       .replace(/^\./, "")
       .split(".");
 
-  let menuItems = navMenuContent.value?.$?.subTree?.component?.subTree?.children || [];
-
+  let menuItems = margeMenuItems()
   let length = indexs.length;
   while (length > 0) {
     let index = indexs.slice(0, length).join(".");
@@ -98,22 +99,32 @@ const computeActiveIndex = () => {
   }
 };
 
+const margeMenuItems = () => {
+  let menuItems = []
+  function loop(items) {
+    if (Array.isArray(items)) {
+      items.forEach(child => {
+        menuItems.push(child)
+        loop(child?.refMenuItems)
+      });
+    }
+  }
+
+  loop(refMenuItems.value)
+  return menuItems
+}
+
 // ---------- 在递归菜单树中查找 index ----------
 const findIndexInMenus = (menuItems, index) => {
+
   if (!Array.isArray(menuItems)) return false;
 
   for (let item of menuItems) {
-    let comp = item.component;
-    if (!comp) continue;
-
-    if (comp.props?.index === index) {
+    if (item.props?.index === index) {
       defaultActiveIndex.value = index;
       return true;
     }
 
-    if (comp.subTree?.children) {
-      if (findIndexInMenus(comp.subTree.children, index)) return true;
-    }
   }
   return false;
 };
@@ -151,7 +162,7 @@ onMounted( () => {
   <div :id="id" :class="containerClass">
     <el-menu
         v-if="menuLoaded"
-        ref="navMenuContent"
+
         :default-active="defaultActiveIndex"
         :mode="mode"
         :collapse="isCollapse"
@@ -161,6 +172,7 @@ onMounted( () => {
       <slot name="prepend"></slot>
 
       <menu-nav-item
+          ref="refMenuItems"
           v-for="(menu, key) in menus"
           :menu="menu"
           :key="key"

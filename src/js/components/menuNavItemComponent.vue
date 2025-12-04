@@ -1,5 +1,5 @@
 <script setup>
-import { computed ,defineOptions} from "vue";
+import {computed, defineOptions, defineExpose, ref} from "vue";
 defineOptions({
   name: "menu-nav-item"
 });
@@ -13,7 +13,11 @@ const props = defineProps({
     default: "0"
   }
 });
-
+const refMenuItems = ref([]);
+defineExpose({
+  props,
+  refMenuItems
+})
 const emit = defineEmits(["callback"]);
 
 // 是否有子菜单
@@ -67,6 +71,7 @@ const hasChildren = computed(() => {
 
     <!-- 递归子菜单 -->
     <menu-nav-item
+        ref="refMenuItems"
         v-for="(child, key) in menu.children"
         :key="key"
         :menu="child"
