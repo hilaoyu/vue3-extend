@@ -1,16 +1,13 @@
 <script setup lang="ts">
 import { ref, reactive, computed, onMounted, nextTick } from "vue";
-import {Utils,LeRoute,Display} from "js-utils";
+import {Utils, LeRoute, Display, axios} from "js-utils";
 import menuNavItem from "./menuNavItemComponent.vue";
 
 const props = defineProps({
+  apiLoadMenu: Object,
   dataMenus: {
     type: [Array, Object],
     default: () => []
-  },
-  dataMenuKey: {
-    type: String,
-    default: "main"
   },
   mode: {
     type: String,
@@ -35,28 +32,40 @@ const props = defineProps({
 });
 
 const menus = ref([]);
+const menuLoaded = ref(false);
+
 const isCollapse = ref(false);
 const isEllipsis = ref(false);
 
 const defaultActiveIndex = ref("");
 const navMenuContent = ref(null);
 
+
 // ---------- 初始化菜单 ----------
-const loadMenus = async () => {
+const loadMenus =  () => {
+  menuLoaded.value = false
   if (Object.keys(props.dataMenus).length > 0) {
     menus.value = props.dataMenus;
+    menuLoaded.value = true
+    menuRefresh()
   } else {
-    const res_data = await LeRoute.quiet().request("api.l-e-s.menus", {
-      menu_key: props.dataMenuKey
-    });
 
-    menus.value = Utils.valueGet(res_data, "data", []);
+    axios.quiet().apiRequest(props.apiLoadMenu).then(function (res_data){
+      menus.value = Utils.valueGet(res_data, "data", []);
+      menuLoaded.value = true
+      menuRefresh()
+    })
+
+
   }
 };
 
-// ---------- 响应式模式切换 ----------
-
-
+const menuRefresh = () => {
+  nextTick(function (){
+    initDisplay();
+    computeActiveIndex();
+  });
+}
 // ---------- 计算 activeIndex ----------
 const computeActiveIndex = () => {
   if (props.dataActiveIndex) {
@@ -132,13 +141,8 @@ const menuCallback = (value) => {
 };
 
 // ---------- 生命周期 ----------
-onMounted(async () => {
-  await loadMenus();
-  initDisplay();
-  nextTick(function (){
-    computeActiveIndex();
-  });
-
+onMounted( () => {
+  loadMenus();
 });
 
 </script>
@@ -146,6 +150,8 @@ onMounted(async () => {
 <template>
   <div :id="id" :class="containerClass">
     <el-menu
+        v-if="menuLoaded"
+        ref="navMenuContent"
         :default-active="defaultActiveIndex"
         :mode="mode"
         :collapse="isCollapse"
