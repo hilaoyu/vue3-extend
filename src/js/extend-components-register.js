@@ -1,6 +1,7 @@
 import passwordView from './components/passwordViewComponent.vue'
 import copyView from './components/copyViewComponent.vue'
 import menuNav from './components/menuNavComponent.vue'
+import formSearch from './components/formSearchComponent.vue'
 
 import inputCaptchaSms from './components/captcha/inputCaptchaSmsComponent.vue'
 import inputCaptchaEmail from './components/captcha/inputCaptchaEmailComponent.vue'
@@ -25,6 +26,7 @@ function extendComponentsRegister(vueApp){
     vueApp.component('password-view', passwordView);
     vueApp.component('copy-view', copyView);
     vueApp.component('menu-nav', menuNav);
+    vueApp.component('form-search', formSearch);
 
     vueApp.component('input-captcha-sms', inputCaptchaSms);
     vueApp.component('input-captcha-email', inputCaptchaEmail);
