@@ -116,7 +116,7 @@ function search(page = "") {
         </template>
 
         <template v-else>
-          <el-input v-model="formSearchData[field]" :placeholder="item.label||''"></el-input>
+          <el-input v-model="formSearchData[field]" :placeholder="item.label||''" clearable></el-input>
         </template>
 
       </el-form-item>
