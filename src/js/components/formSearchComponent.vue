@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { reactive} from "vue";
+import { reactive,defineExpose} from "vue";
 import { Utils} from "js-utils";
 
 const props = defineProps({
@@ -20,16 +20,16 @@ for (let field in props.dataSearch) {
   formSearchData[field] = val;
 }
 
-function getSearchData(page = "") {
-  const data = Object.assign(formSearchData,{  pager_page: page })
+function getSearchData(pager) {
+  const data = Object.assign(formSearchData,{  pager_page: pager?.current_page , pager_offset: pager?.per_page })
 
   if (props.alertSearchData) {
     return props.alertSearchData(data)
   }
   return data;
 }
-function search(page = "") {
-  const data = getSearchData(page)
+function search(pager) {
+  const data = getSearchData(pager)
 
   if (props.submitCallback) {
     return props.submitCallback(data)
@@ -37,6 +37,10 @@ function search(page = "") {
 
   window.location.href = Utils.buildUrl(window.location.href, data)
 }
+
+defineExpose({
+  search
+})
 </script>
 <style>
 .vue3-extend-form-search .el-input {
