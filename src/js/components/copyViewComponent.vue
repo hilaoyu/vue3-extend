@@ -1,5 +1,5 @@
 <template>
-  <el-tooltip placement="right-start">
+  <el-tooltip placement="right-start" popper-class="p-0 " effect="light">
     <template #default>
       <slot>
         {{ dataContent }}
