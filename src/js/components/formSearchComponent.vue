@@ -7,6 +7,10 @@ const props = defineProps({
     type: [Object, Array],
     default: () => ({})
   },
+  size:{
+    type: String,
+    default: ''
+  },
   submitCallback: Function,
   alertSearchData: Function,
 });
@@ -52,7 +56,7 @@ defineExpose({
 }
 </style>
 <template>
-  <el-form :inline="true" :model="formSearchData" size="" class="vue3-extend-form-search">
+  <el-form :inline="true" :model="formSearchData" :size="size" class="vue3-extend-form-search">
     <template v-for="(item,field) in dataSearch">
       <el-form-item :label="item.label||''" >
         <template v-if="'select'==item.type">
@@ -128,7 +132,7 @@ defineExpose({
 
 
     <el-form-item>
-      <el-button type="primary" @click="search()">搜索</el-button>
+      <el-button :size="size" type="primary" @click="search()">搜索</el-button>
     </el-form-item>
 
     <div class="float-right float-end form-search-append">

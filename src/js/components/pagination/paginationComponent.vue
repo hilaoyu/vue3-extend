@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts" setup>
-import {defineProps, getCurrentInstance, ref, watch} from 'vue';
+import {defineExpose, defineProps, getCurrentInstance, ref, watch} from 'vue';
 import {Utils} from "js-utils";
 const {proxy, ctx} = getCurrentInstance()
 const props = defineProps({
@@ -63,5 +63,12 @@ const handleCurrentChange = (val) => {
   window.location.href = Utils.buildUrl(window.location.href,{pager_page:val})
 }
 
+const getCurrentPage = ()=>{
+  return pager.value
+}
+
+defineExpose({
+  getCurrentPage
+})
 
 </script>
