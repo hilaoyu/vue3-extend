@@ -52,7 +52,10 @@ setAxiosGlobalMessageHandle(function (msg,type){
 setAxiosGlobalLoadingServiceHandle(function (){
     return ElLoading.service({
         lock: true,
+        body:true,
+        customClass:"z-index-999999999",
         text: 'Loading...',
+        target: document.body,
         background: 'rgba(0, 0, 0, 0.7)',
     })
 })
