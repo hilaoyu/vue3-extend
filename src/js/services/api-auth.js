@@ -5,8 +5,9 @@ export const ApiAuth = {
 
         StorageUtil.setClientSource();
 
-        return axios.apiRequest(api,data)
+        return axios.quiet(false).apiRequest(api,data)
             .then(function (res_data) {
+                console.log(res_data)
                 let data = Utils.valueGet(res_data, 'data', null)
                 let user = Utils.valueGet(data, 'user', null);
                 let token = Utils.valueGet(data, 'token', null);
@@ -32,7 +33,7 @@ export const ApiAuth = {
             });
     },
     logout :function (api) {
-        return axios.apiRequest(api)
+        return axios.quiet(false).apiRequest(api)
             .then(function (res_data) {
                 StorageUtil.clearAuthInfo();
                 StorageUtil.removeClientSource();
