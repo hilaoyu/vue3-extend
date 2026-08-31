@@ -43,7 +43,7 @@ function search(pager) {
 }
 
 defineExpose({
-  search
+  search,getSearchData
 })
 </script>
 <style>
