@@ -31,10 +31,6 @@ const props = defineProps({
       ]
     }
   },
-  pageCount: {
-    type: Number,
-    default: 11,
-  },
   pageLayout: {
     type: String,
     default: "total, sizes, prev, pager, next,jumper",
