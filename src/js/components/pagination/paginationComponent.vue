@@ -2,8 +2,8 @@
     <el-pagination
         background
         :size="size"
-        @size-change="handleSizeChange"
-        @current-change="handleCurrentChange"
+        @update:size-change="handleSizeChange"
+        @update:current-change="handleCurrentChange"
         :current-page="pager.current_page"
         :page-sizes="pageSizes"
         :page-size="pager.per_page"
