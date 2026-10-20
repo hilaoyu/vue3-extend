@@ -1,7 +1,7 @@
 <template>
     <el-pagination
         background
-        :small="small"
+        :size="size"
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="pager.current_page"
@@ -13,11 +13,14 @@
 </template>
 
 <script lang="ts" setup>
-import {defineExpose, defineProps, getCurrentInstance, ref, watch} from 'vue';
+import {defineExpose, defineProps, getCurrentInstance, ref, PropType} from 'vue';
 import {Utils} from "js-utils";
 const {proxy, ctx} = getCurrentInstance()
 const props = defineProps({
-  small: Boolean,
+  size: {
+    type:String as PropType<'large' | 'default' | 'small'>,
+    default:"default"
+  },
   dataPager: Object,
   pageSizes: {
     type: Array,
